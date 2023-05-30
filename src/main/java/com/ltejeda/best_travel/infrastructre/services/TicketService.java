@@ -25,7 +25,7 @@ import java.util.UUID;
 @Slf4j
 public class TicketService implements ITicketService {
 
-    private static final BigDecimal charger_price_percentage = BigDecimal.valueOf(0.25);
+    public static final BigDecimal charger_price_percentage = BigDecimal.valueOf(0.25);
     private final FlyRepository flyRepository;
     private final CustomerRepository customerRepository;
     private final TicketRepository ticketRepository;

@@ -37,31 +37,24 @@ public class TourEntity implements Serializable {
     @JoinColumn(name = "id_customer")
     private CustomerEntity customer;
 
-    public void addTicket(TicketEntity ticket){
-        if((Objects.isNull(this.tickets))) this.tickets = new HashSet<>();
-        this.tickets.add(ticket);
+    @PrePersist
+    @PreRemove
+    public void updateFk(){
+        this.reservations.forEach(reservation -> reservation.setTour(this));
+        this.tickets.forEach(ticket -> ticket.setTour(this));
     }
 
     public void removeTicket(UUID id){
-        if((Objects.isNull(this.tickets))) this.tickets = new HashSet<>();
-        this.tickets.removeIf(t -> t.getId().equals(id));
+        this.tickets.forEach(ticket -> {
+            if(ticket.getId().equals(id)){
+                ticket.setTour(null);
+            }
+        });
     }
 
-    public void updateTickets(){
+    public void addTicket(TicketEntity ticket){
+        if(Objects.isNull(this.tickets)) this.tickets = new HashSet<>();
+        this.tickets.add(ticket);
         this.tickets.forEach(t -> t.setTour(this));
-    }
-
-    public void addReservation(ReservationEntity reservation){
-        if((Objects.isNull(this.reservations))) this.reservations = new HashSet<>();
-        this.reservations.add(reservation);
-    }
-
-    public void removeReservation(UUID idReservation){
-        if((Objects.isNull(this.reservations))) this.tickets = new HashSet<>();
-        this.reservations.removeIf(r -> r.getId().equals(idReservation));
-    }
-
-    public void updateReservations(){
-        this.reservations.forEach(r -> r.setTour(this));
     }
 }

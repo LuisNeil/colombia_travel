@@ -28,7 +28,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ReservationService implements IReservationService {
 
-    private static final BigDecimal charges_price_percentage = BigDecimal.valueOf(0.20);
+    public static final BigDecimal charges_price_percentage = BigDecimal.valueOf(0.20);
     private final HotelRepository hotelRepository;
     private final CustomerRepository customerRepository;
     private final ReservationRepository reservationRepository;
