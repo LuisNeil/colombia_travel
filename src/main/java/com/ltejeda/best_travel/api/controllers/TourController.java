@@ -45,4 +45,19 @@ public class TourController {
         Map<String, UUID> response = Collections.singletonMap("ticketId", this.tourService.addTicket(tourId, flyId));
         return ResponseEntity.ok(response);
     }
+
+    @PatchMapping(path = "{tourId}/remove_reservation/{reservationId}")
+    private ResponseEntity<Void> deleteReservation(@PathVariable Long tourId, @PathVariable UUID reservationId){
+        this.tourService.removeReservation(tourId,reservationId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(path = "{tourId}/add_reservation/{hotelId}")
+    private ResponseEntity<Map<String,UUID>> postReservation(
+            @PathVariable Long tourId,
+            @PathVariable Long hotelId,
+            @RequestParam Integer totalDays){
+        Map<String, UUID> response = Collections.singletonMap("reservationId", this.tourService.addReservation(tourId, hotelId, totalDays));
+        return ResponseEntity.ok(response);
+    }
 }
